@@ -1,3 +1,9 @@
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+
 (load-theme 'tsdh-dark)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
