@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 
-;; This is my config file for Emacs Clojure Development usefully on Windows
+;; no comment
 
 ;;; Code:
 
@@ -11,10 +11,10 @@
 ;; Basic configuration
 (progn
   (require 'package)
-  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-  (add-to-list 'package-archives '("elpa"   . "https://elpa.gnu.org/packages/")  t)
-  (add-to-list 'package-archives '("melpa"  . "https://melpa.org/packages/")     t)
-  (add-to-list 'package-archives '("org"    . "https://orgmode.org/elpa/")       t)
+  (add-to-list 'package-archives '("nongnu"       . "https://elpa.nongnu.org/nongnu/")    t)
+  (add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/")     t)
+  (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/")        t)
+  (add-to-list 'package-archives '("org"          . "https://orgmode.org/elpa/")          t)
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents))
@@ -58,6 +58,9 @@
     (interactive)
     (find-file user-init-file))
 
+  (setq user-full-name "Thomas Walter"
+	user-mail-address "thg.walter@free.fr")
+
   (recentf-mode t)
   (savehist-mode t)
   (setq history-length 25)
@@ -82,29 +85,34 @@
       (set-frame-position (selected-frame) 80 80)
       (set-frame-size (selected-frame) 110 40)
       (global-hl-line-mode t)
-      (global-prettify-symbols-mode t)
-      (use-package ligature
-	:config
-	(ligature-set-ligatures 't '("www"))
-	(ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-	(ligature-set-ligatures
-	 'prog-mode
-	 '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-	   ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-	   "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-	   "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-	   "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-	   "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-	   "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-	   "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-	   ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-	   "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-	   "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-	   "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-	   "\\\\" "://"))
-	(global-ligature-mode t)))
+      (global-prettify-symbols-mode t))
   
   (set-face-background 'default "undefined"))
+
+(use-package window-commander
+  :config
+  (wincom-mode))
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  (ligature-set-ligatures
+   'prog-mode
+   '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+     ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+     "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+     "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+     "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+     "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+     "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+     "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+     ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+     "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+     "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+     "\\\\" "://"))
+  (global-ligature-mode t))
 
 ;; Themes
 (progn
@@ -115,6 +123,7 @@
   
   (use-package anti-zenburn-theme)
   (use-package zenburn-theme)
+  (use-package nezburn-theme)
 
   (defun disable-all-themes ()
     "Disable all the themes already loaded."
@@ -151,10 +160,14 @@
 (progn
   (setq inhibit-startup-screen t)
   (setq initial-scratch-message "")
-  (use-package dashboard
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner "c:/dev/Clojure_Logo.svg")))
+  '(use-package dashboard
+     :config
+     (dashboard-setup-startup-hook)
+     ;;(setq dashboard-startup-banner "c:/dev/Clojure_Logo.svg")
+     (setq dashboard-items-default-length 15)
+     (setq dashboard-footer-messages nil)
+     (setq dashboard-banner-logo-title nil)
+     (setq dashboard-startup-banner nil)))
 
 ;; Moving between buffers
 (use-package windmove
@@ -174,10 +187,10 @@
 
 ;; Cursor
 (progn
-  (blink-cursor-mode t)
-  (use-package bar-cursor
-    :diminish
-    :init (bar-cursor-mode t))
+  (blink-cursor-mode 0)
+  '(use-package bar-cursor
+     :diminish
+     :init (bar-cursor-mode t))
   ;; highlight corsor when scrolling
   (use-package beacon
     :diminish
@@ -350,7 +363,9 @@
     :bind (("C-²" . toggle-eval-result-duration)))
 
   ;; For Clojure CLR
-  (use-package inf-clojure))
+  (use-package inf-clojure)
+
+  (use-package babashka))
 
 ;; Programming languages
 (progn
