@@ -22,7 +22,7 @@
     (package-install 'use-package))
   (require 'use-package)
   (setq use-package-always-ensure t)
-  (setq use-package-verbose t)
+  '(setq use-package-verbose t)
   (use-package diminish)
   (setq load-prefer-newer t)
 
@@ -48,8 +48,8 @@
   (delete-selection-mode t)
   (setq frame-title-format
 	'((:eval (if (buffer-file-name)
-                     (abbreviate-file-name (buffer-file-name))
-                   "%b"))))
+		     (abbreviate-file-name (buffer-file-name))
+		   "%b"))))
   (size-indication-mode 0)
   (setq ring-bell-function 'ignore)
   
@@ -147,6 +147,13 @@
     (load-theme 'zenburn t)
     (setq light-theme-enabled nil))
 
+  (defun nez-theme ()
+    "Load the nezburn theme."
+    (interactive)
+    (disable-all-themes)
+    (load-theme 'nezburn t)
+    (setq light-theme-enabled nil))
+
   ;; Starting dark by default.
   (dark-theme)
 
@@ -160,14 +167,15 @@
 (progn
   (setq inhibit-startup-screen t)
   (setq initial-scratch-message "")
-  '(use-package dashboard
-     :config
-     (dashboard-setup-startup-hook)
-     ;;(setq dashboard-startup-banner "c:/dev/Clojure_Logo.svg")
-     (setq dashboard-items-default-length 15)
-     (setq dashboard-footer-messages nil)
-     (setq dashboard-banner-logo-title nil)
-     (setq dashboard-startup-banner nil)))
+  (use-package dashboard
+    :config
+    (dashboard-setup-startup-hook)
+    ;;(setq dashboard-startup-banner "c:/dev/Clojure_Logo.svg")
+    ;;(setq dashboard-items-default-length 15)
+    ;;(setq dashboard-footer-messages nil)
+    ;;(setq dashboard-banner-logo-title nil)
+    ;;(setq dashboard-startup-banner nil)
+    ))
 
 ;; Moving between buffers
 (use-package windmove
@@ -337,7 +345,7 @@
     (setq clojure-essential-ref-default-browse-fn #'clojure-essential-ref-nov-browse))
 
   (use-package cider
-    :diminish  
+    :diminish
     :custom
     (cider-auto-select-error-buffer nil)
     (cider-enrich-classpath t)
@@ -411,8 +419,11 @@
   (global-set-key (kbd "M-o")      #'ace-window)
   (global-set-key (kbd "C-x C-4")  #'shrink-window-horizontally)
   (global-set-key (kbd "C-x C-6")  #'enlarge-window-horizontally)
-  (global-set-key (kbd "C-x C-a")  #'accent-menu))
+  ;;(global-set-key (kbd "C-x C-a")  #'accent-menu)
+  )
 
+
+(use-package dockerfile-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
