@@ -20,9 +20,9 @@
     (package-refresh-contents))
   '(unless (package-installed-p 'use-package)
      (package-install 'use-package))
-  '(require 'use-package)
+  (require 'use-package)
   (setq use-package-always-ensure t)
-  '(setq use-package-verbose t)
+  (setq use-package-verbose t)
   (use-package diminish)
   (setq load-prefer-newer t)
 
@@ -285,12 +285,16 @@
   (use-package company-web)
   (use-package company-shell)
   ;;(use-package company-c-headers)
+
+  (use-package anakondo)
   )
 
 (use-package charmap)
 (use-package chemtable)
 (use-package chess)
 (use-package chronometer)
+(use-package evil)
+(evil-mode -1)
 
 ;; LSP
 (progn
@@ -321,7 +325,6 @@
   (use-package lsp-sonarlint)
 
   )
-
 
 
 ;; Linting
@@ -371,13 +374,13 @@
     :config
     (require 'flycheck-clj-kondo)
     :hook ((clojure-mode . aggressive-indent-mode)
-	   (clojure-mode . flycheck-mode)
+	   ;;(clojure-mode . flycheck-mode)
 	   (clojure-mode . paredit-mode)
 	   (clojurescript-mode . aggressive-indent-mode)
-	   (clojurescript-mode . flycheck-mode)
+	   ;;(clojurescript-mode . flycheck-mode)
 	   (clojurescript-mode . paredit-mode)
 	   (clojurec-mode . aggressive-indent-mode)
-	   (clojurec-mode . flycheck-mode)
+	   ;;(clojurec-mode . flycheck-mode)
 	   (clojurec-mode . paredit-mode)))
 
   (use-package clojure-essential-ref-nov
@@ -465,12 +468,17 @@
 
 (use-package dockerfile-mode)
 
+(use-package ocaml-ts-mode)
+
+(use-package cargo-mode)
+
+(use-package rust-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; FOOTER
+;;
 
-;; (locate-user-emacs-file "test.el")
+;; (Locate-user-emacs-file "test.el")
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
