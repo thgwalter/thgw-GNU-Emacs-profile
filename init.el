@@ -296,35 +296,35 @@
 (use-package evil)
 (evil-mode -1)
 
-;; LSP
-(progn
+;; LSP : What a piece of CRAP!
+'(progn
 
-  (use-package lsp-mode
-    :ensure t
-    :hook ((clojure-mode . lsp)
-           (clojurec-mode . lsp)
-           (clojurescript-mode . lsp))
-    :config
-    ;; add paths to your local installation of project mgmt tools, like lein
-    '(setenv "PATH" (concat
-                     "/usr/local/bin" path-separator
-                     (getenv "PATH")))
-    (dolist (m '(clojure-mode
-		 clojurec-mode
-		 clojurescript-mode
-		 clojurex-mode))
-      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-    ;;(setq lsp-clojure-server-command '("/path/to/clojure-lsp"))
-    )
+   (use-package lsp-mode
+     :ensure t
+     :hook ((clojure-mode . lsp)
+            (clojurec-mode . lsp)
+            (clojurescript-mode . lsp))
+     :config
+     ;; add paths to your local installation of project mgmt tools, like lein
+     '(setenv "PATH" (concat
+                      "/usr/local/bin" path-separator
+                      (getenv "PATH")))
+     (dolist (m '(clojure-mode
+		  clojurec-mode
+		  clojurescript-mode
+		  clojurex-mode))
+       (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+     ;;(setq lsp-clojure-server-command '("/path/to/clojure-lsp"))
+     )
 
-  (use-package lsp-ui
-    :commands lsp-ui-mode)
-  (use-package lsp-haskell)
-  (use-package lsp-java)
-  (use-package lsp-latex)
-  (use-package lsp-sonarlint)
+   (use-package lsp-ui
+     :commands lsp-ui-mode)
+   (use-package lsp-haskell)
+   (use-package lsp-java)
+   (use-package lsp-latex)
+   (use-package lsp-sonarlint)
 
-  )
+   )
 
 
 ;; Linting
@@ -374,13 +374,13 @@
     :config
     (require 'flycheck-clj-kondo)
     :hook ((clojure-mode . aggressive-indent-mode)
-	   ;;(clojure-mode . flycheck-mode)
+	   (clojure-mode . flycheck-mode)
 	   (clojure-mode . paredit-mode)
 	   (clojurescript-mode . aggressive-indent-mode)
-	   ;;(clojurescript-mode . flycheck-mode)
+	   (clojurescript-mode . flycheck-mode)
 	   (clojurescript-mode . paredit-mode)
 	   (clojurec-mode . aggressive-indent-mode)
-	   ;;(clojurec-mode . flycheck-mode)
+	   (clojurec-mode . flycheck-mode)
 	   (clojurec-mode . paredit-mode)))
 
   (use-package clojure-essential-ref-nov
