@@ -89,10 +89,6 @@
   
   (set-face-background 'default "undefined"))
 
-(use-package window-commander
-  :config
-  (wincom-mode))
-
 (use-package ligature
   :config
   (ligature-set-ligatures 't '("www"))
@@ -192,6 +188,12 @@
 	("C-<f10>" . treemacs-select-window))
   :custom
   (treemacs-is-never-other-window t))
+
+(use-package nerd-icons)
+(use-package treemacs-nerd-icons
+  :config
+  (treemacs-load-theme "nerd-icons"))
+
 
 ;; Cursor
 (progn
@@ -293,8 +295,6 @@
 (use-package chemtable)
 (use-package chess)
 (use-package chronometer)
-(use-package evil)
-(evil-mode -1)
 
 ;; LSP : What a piece of CRAP!
 '(progn
@@ -325,7 +325,6 @@
    (use-package lsp-sonarlint)
 
    )
-
 
 ;; Linting
 (progn
@@ -416,7 +415,9 @@
   ;; For Clojure CLR
   (use-package inf-clojure)
 
-  (use-package babashka))
+  (use-package babashka)
+
+  (use-package html-to-hiccup))
 
 ;; Programming languages
 (progn
@@ -455,7 +456,7 @@
   (global-set-key [C-f4]           #'insert-kbd-macro)
   (global-set-key [C-f5]           #'er/expand-region)
   (global-set-key [C-f6]           #'er/contract-region)
-  (global-set-key [f12]            #'equake-invoke)
+  ;;(global-set-key [f12]            #'equake-invoke)
   (global-set-key [C-f12]          #'package-refresh-contents)
   (global-set-key (kbd "M-/")      #'hippie-expand)
   (global-set-key (kbd "C-M-<f1>") #'info-display-manual)
@@ -471,8 +472,9 @@
 (use-package ocaml-ts-mode)
 
 (use-package cargo-mode)
-
 (use-package rust-mode)
+
+(use-package zig-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
