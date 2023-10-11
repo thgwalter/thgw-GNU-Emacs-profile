@@ -198,30 +198,30 @@
    (global-set-key (kbd "C-c <up>")    'windmove-up)
    (global-set-key (kbd "C-c <down>")  'windmove-down))
 
-'(use-package treemacs
-   :bind
-   (:map global-map
-	 ([f10] . treemacs)
-	 ("C-<f10>" . treemacs-select-window))
-   :custom
-   (treemacs-is-never-other-window t))
+(use-package treemacs
+  :bind
+  (:map global-map
+	([f10] . treemacs)
+	("C-<f10>" . treemacs-select-window))
+  :custom
+  '(treemacs-is-never-other-window t))
 
-'(use-package nerd-icons)
-'(use-package treemacs-nerd-icons
-   :config
-   (treemacs-load-theme "nerd-icons"))
+(use-package nerd-icons)
+(use-package treemacs-nerd-icons
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
 
 ;; Cursor
-'(progn
-   '(blink-cursor-mode 0)
-   '(use-package bar-cursor
-      :diminish
-      :init (bar-cursor-mode t))
-   ;; highlight corsor when scrolling
-   '(use-package beacon
-      :diminish
-      :init (beacon-mode t)))
+(progn
+  '(blink-cursor-mode 0)
+  '(use-package bar-cursor
+     :diminish
+     :init (bar-cursor-mode t))
+  ;; highlight corsor when scrolling
+  (use-package beacon
+    :diminish
+    :init (beacon-mode t)))
 
 ;; Scrolling
 (scroll-bar-mode 0)
@@ -308,7 +308,7 @@
   '(use-package anakondo)
   )
 
-'(use-package charmap)
+(use-package charmap)
 '(use-package chemtable)
 '(use-package chess)
 '(use-package chronometer)
@@ -471,8 +471,13 @@
     '(define-key js-mode-map (kbd "M-.") nil)
     (add-hook 'js2-mode-hook
 	      (lambda ()
+		(add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+    (add-hook 'js2-minor-mode-hook
+	      (lambda ()
 		(add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
 
+  (use-package flycheck-color-mode-line)
+  
   (use-package web-mode
     :mode (("\\.html?\\'" . web-mode)
            ("\\.erb\\'"   . web-mode)
@@ -481,7 +486,7 @@
     (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
     (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
     '(defun web-mode-init-hook ()
-       "Hooks for Web mode.  Adjust indent."
+       "Hooks for Web mode. Adjust indent."
        (setq web-mode-markup-indent-offset 4))
     '(add-hook 'web-mode-hook 'web-mode-init-hook)
     (setq-default flycheck-disabled-checkers
@@ -496,11 +501,6 @@
     (web-mode-css-indent-offset    2)
     (web-mode-code-indent-offset   2))
 
-  (use-package flycheck-color-mode-line
-    :config
-    (setq-default flycheck-disabled-checkers
-		  (append flycheck-disabled-checkers
-			  '(javascript-jshint json-jsonlist))))
 
   (use-package add-node-modules-path
     :config
