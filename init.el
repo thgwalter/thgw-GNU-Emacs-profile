@@ -400,18 +400,18 @@
 	   (clojurec-mode . paredit-mode)))
 
   '(use-package clojure-ts-mode
-    :diminish
-    :config
-    (require 'flycheck-clj-kondo)
-    :hook ((clojure-ts-mode . aggressive-indent-mode)
-	   (clojure-ts-mode . flycheck-mode)
-	   (clojure-ts-mode . paredit-mode)
-	   (clojurescript-ts-mode . aggressive-indent-mode)
-	   (clojurescript-ts-mode . flycheck-mode)
-	   (clojurescript-ts-mode . paredit-mode)
-	   (clojurec-ts-mode . aggressive-indent-mode)
-	   (clojurec-ts-mode . flycheck-mode)
-	   (clojurec-ts-mode . paredit-mode)))
+     :diminish
+     :config
+     (require 'flycheck-clj-kondo)
+     :hook ((clojure-ts-mode . aggressive-indent-mode)
+	    (clojure-ts-mode . flycheck-mode)
+	    (clojure-ts-mode . paredit-mode)
+	    (clojurescript-ts-mode . aggressive-indent-mode)
+	    (clojurescript-ts-mode . flycheck-mode)
+	    (clojurescript-ts-mode . paredit-mode)
+	    (clojurec-ts-mode . aggressive-indent-mode)
+	    (clojurec-ts-mode . flycheck-mode)
+	    (clojurec-ts-mode . paredit-mode)))
 
   '(use-package clojure-essential-ref-nov
      :init
@@ -451,15 +451,76 @@
   '(use-package html-to-hiccup))
 
 ;; Programming languages
-'(progn
-   (use-package web-mode
-     :mode (("\\.html?\\'" . web-mode)
-            ("\\.erb\\'"   . web-mode)
-            ("\\.hbs\\'"   . web-mode))
-     :custom
-     (web-mode-markup-indent-offset 2)
-     (web-mode-css-indent-offset    2)
-     (web-mode-code-indent-offset   2)))
+;; https://gist.github.com/CodyReichert/9dbc8bd2a104780b64891d8736682cea
+(progn
+  (use-package js2-mode
+    :config
+    '(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    '(add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
+
+  (use-package js2-refactor
+    :config
+    '(add-hook 'js2-mode-hook #'js2-refactor-mode)
+    (js2r-add-keybindings-with-prefix "C-c C-r")
+    (define-key js2-mode-map (kbd "C-k") #'js2r-kill))
+
+  (use-package xref-js2
+    :config
+    ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+    ;; unbind it.
+    '(define-key js-mode-map (kbd "M-.") nil)
+    (add-hook 'js2-mode-hook
+	      (lambda ()
+		(add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+
+  (use-package web-mode
+    :mode (("\\.html?\\'" . web-mode)
+           ("\\.erb\\'"   . web-mode)
+           ("\\.hbs\\'"   . web-mode))
+    :config
+    (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
+    (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+    '(defun web-mode-init-hook ()
+       "Hooks for Web mode.  Adjust indent."
+       (setq web-mode-markup-indent-offset 4))
+    '(add-hook 'web-mode-hook 'web-mode-init-hook)
+    (setq-default flycheck-disabled-checkers
+		  (append flycheck-disabled-checkers
+			  '(javascript-jshint json-jsonlist)))
+    ;; Enable eslint checker for web-mode
+    (flycheck-add-mode 'javascript-eslint 'web-mode)
+    ;; Enable flycheck globally
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    :custom
+    (web-mode-markup-indent-offset 2)
+    (web-mode-css-indent-offset    2)
+    (web-mode-code-indent-offset   2))
+
+  (use-package flycheck-color-mode-line
+    :config
+    (setq-default flycheck-disabled-checkers
+		  (append flycheck-disabled-checkers
+			  '(javascript-jshint json-jsonlist))))
+
+  (use-package add-node-modules-path
+    :config
+    (add-hook 'flycheck-mode-hook 'add-node-modules-path))
+
+  (use-package emmet-mode
+    :config
+    (add-hook 'web-mode-hook 'emmet-mode))
+  
+  (use-package prettier-js
+    :config
+    (defun web-mode-init-prettier-hook ()
+      (add-node-modules-path)
+      (prettier-js-mode)
+      (js2-minor-mode)
+      (js2-refactor-mode)
+      (emmet-mode))
+    (add-hook 'web-mode-hook 'web-mode-init-prettier-hook))
+
+  )
 
 '(use-package org)
 '(use-package org-modern
@@ -511,6 +572,9 @@
   :config 
   (setq neil-prompt-for-version-p nil
 	neil-inject-dep-to-project-p t))
+
+;; https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
