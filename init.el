@@ -11,6 +11,7 @@
 ;; Basic configuration
 (progn
   ;;(server-start)
+  (setq byte-compile-warnings '(cl-functions))
   (require 'package)
   '(add-to-list 'package-archives '("nongnu"       . "https://elpa.nongnu.org/nongnu/")    t)
   '(add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/")     t)
@@ -31,13 +32,13 @@
   (setq gc-cons-threshold (* 50 my/million))
   (setq large-file-warning-threshold (* 100 my/million))
 
-  (when (eq system-type 'windows-nt)
-    (setq w32-pass-lwindow-to-system nil)
-    (setq w32-lwindow-modifier 'super)
-    (setq w32-pass-rwindow-to-system nil)
-    (setq w32-rwindow-modifier 'super)
-    (defvar w32-pass-apps-to-system nil)
-    (setq w32-apps-modifier 'hyper))
+  '(when (eq system-type 'windows-nt)
+     (setq w32-pass-lwindow-to-system nil)
+     (setq w32-lwindow-modifier 'super)
+     (setq w32-pass-rwindow-to-system nil)
+     (setq w32-rwindow-modifier 'super)
+     (defvar w32-pass-apps-to-system nil)
+     (setq w32-apps-modifier 'hyper))
 
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
@@ -76,7 +77,7 @@
  (lambda ()   
    (set-face-attribute
     'default nil
-    :height 160
+    :height 110
     :font (cond
 	   ((find-font (font-spec :name "Fira Code"))            "Fira Code Light")
 	   ((find-font (font-spec :name "JetBrains Mono"))       "JetBrains Mono Light")
@@ -314,34 +315,32 @@
 '(use-package chronometer)
 
 ;; LSP : What a piece of CRAP!
-'(progn
+(progn
 
-   (use-package lsp-mode
-     :ensure t
-     :hook ((clojure-mode . lsp)
-            (clojurec-mode . lsp)
-            (clojurescript-mode . lsp))
-     :config
-     ;; add paths to your local installation of project mgmt tools, like lein
-     '(setenv "PATH" (concat
-                      "/usr/local/bin" path-separator
-                      (getenv "PATH")))
-     (dolist (m '(clojure-mode
-		  clojurec-mode
-		  clojurescript-mode
-		  clojurex-mode))
-       (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-     ;;(setq lsp-clojure-server-command '("/path/to/clojure-lsp"))
-     )
+  (use-package lsp-mode
+    :ensure t
+    :hook (;;(clojure-mode . lsp)
+           ;;(clojurec-mode . lsp)
+           ;;(clojurescript-mode . lsp)
+	   (cider-mode . lsp))
+    :config
+    (dolist (m '(;;clojure-mode
+		 ;;clojurec-mode
+		 ;;clojurescript-mode
+		 ;;clojurex-mode
+		 cider-mode))
+      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+    ;;(setq lsp-clojure-server-command '("/path/to/clojure-lsp"))
+    )
 
-   (use-package lsp-ui
+  '(use-package lsp-ui
      :commands lsp-ui-mode)
-   (use-package lsp-haskell)
-   (use-package lsp-java)
-   (use-package lsp-latex)
-   (use-package lsp-sonarlint)
+  (use-package lsp-haskell)
+  '(use-package lsp-java)
+  '(use-package lsp-latex)
+  '(use-package lsp-sonarlint)
 
-   )
+  )
 
 ;; Linting
 (progn
@@ -431,6 +430,9 @@
     (cider-save-file-on-load t)
     (cider-show-error-buffer nil)
     (nrepl-hide-special-buffers t)
+
+    (cider-inject-dependencies-at-jack-in t)
+    
     (nrepl-log-messages t)
     :config
     (define-key cider-repl-mode-map (kbd "C-c M-b") #'cider-repl-clear-buffer)
@@ -438,7 +440,7 @@
       "Function to toggle cider-eval-result-duration between nil and 'command."
       (interactive)
       (setq cider-eval-result-duration (if cider-eval-result-duration nil 'command)))
-    :hook ((cider-mode . company-mode)
+    :hook ((cider-mode      . company-mode)
 	   (cider-repl-mode . paredit-mode)
 	   (cider-repl-mode . company-mode))
     :bind (("C-²" . toggle-eval-result-duration)))
@@ -446,7 +448,7 @@
   ;; For Clojure CLR
   '(use-package inf-clojure)
 
-  '(use-package babashka)
+  (use-package babashka)
 
   '(use-package html-to-hiccup))
 
