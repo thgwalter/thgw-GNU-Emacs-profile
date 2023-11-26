@@ -60,6 +60,13 @@
     (interactive)
     (find-file user-init-file))
 
+  (defun find-user-deps-edn ()
+    "Find my Emacs config file."
+    (interactive)
+    (find-file "c:/Users/Utilisateur/.clojure/thgw-deps-profile/deps.edn"))
+
+
+
   '(setq user-full-name "Thomas Walter"
 	 user-mail-address "thg.walter@free.fr")
 
@@ -356,7 +363,7 @@
 
 ;; LISP
 (progn
-  '(use-package expand-region)
+  (use-package expand-region)
 
   (use-package paredit
     :diminish
@@ -384,6 +391,8 @@
   '(use-package subword
      :diminish)
 
+  (use-package clj-refactor)
+
   (use-package clojure-mode
     :diminish
     :config
@@ -391,6 +400,7 @@
     :hook ((clojure-mode . aggressive-indent-mode)
 	   (clojure-mode . flycheck-mode)
 	   (clojure-mode . paredit-mode)
+	   (clojure-mode . clj-refactor-mode)
 	   (clojurescript-mode . aggressive-indent-mode)
 	   (clojurescript-mode . flycheck-mode)
 	   (clojurescript-mode . paredit-mode)
@@ -545,6 +555,7 @@
   (global-set-key [f6]             #'toggle-tool-bar-mode-from-frame)
   (global-set-key [f8]             #'ibuffer-list-buffers)
   (global-set-key [f9]             #'find-user-init)
+  (global-set-key [C-f9]           #'find-user-deps-edn)
   (global-set-key [C-f1]           #'shortdoc-display-group)
   (global-set-key [C-f3]           #'kmacro-name-last-macro)
   (global-set-key [C-f4]           #'insert-kbd-macro)
@@ -560,6 +571,23 @@
   '(global-set-key (kbd "C-x C-a")  #'accent-menu)
   )
 
+(use-package jsdoc)
+
+(use-package markdown-soma)
+
+(use-package all-the-icons)
+
+(use-package projectile)
+
+(use-package keycast)
+
+(use-package racket-mode)
+
+(use-package magit)
+
+(use-package slime)
+
+'(use-package php-mode)
 
 '(use-package dockerfile-mode)
 
