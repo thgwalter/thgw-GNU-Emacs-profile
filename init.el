@@ -81,7 +81,7 @@
 (;;if window-system
 
  add-hook 'after-init-hook
- (lambda ()   
+ (lambda ()
    (set-face-attribute
     'default nil
     :height 110
@@ -311,7 +311,7 @@
 
   '(use-package company-web)
   '(use-package company-shell)
-  ;;(use-package company-c-headers)
+  (use-package company-c-headers)
 
   '(use-package anakondo)
   )
@@ -338,11 +338,13 @@
 		 cider-mode))
       (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
     ;;(setq lsp-clojure-server-command '("/path/to/clojure-lsp"))
+    (setq lsp-enable-indentation nil)
+    (setq lsp-enable-completion-at-point nil)
     )
 
-  '(use-package lsp-ui
-     :commands lsp-ui-mode)
-  (use-package lsp-haskell)
+  (use-package lsp-ui
+    :commands lsp-ui-mode)
+  '(use-package lsp-haskell)
   '(use-package lsp-java)
   '(use-package lsp-latex)
   '(use-package lsp-sonarlint)
@@ -354,7 +356,7 @@
   (use-package flycheck
     :hook ((after-init-hook . global-flycheck-mode)))
   '(use-package flycheck-eldev)
-  (use-package flycheck-clj-kondo))
+  '(use-package flycheck-clj-kondo))
 
 ;; MARKDOWN
 '(progn
@@ -571,21 +573,21 @@
   '(global-set-key (kbd "C-x C-a")  #'accent-menu)
   )
 
-(use-package jsdoc)
+'(use-package jsdoc)
 
-(use-package markdown-soma)
+'(use-package markdown-soma)
 
 (use-package all-the-icons)
 
 (use-package projectile)
 
-(use-package keycast)
+'(use-package keycast)
 
-(use-package racket-mode)
+'(use-package racket-mode)
 
 (use-package magit)
 
-(use-package slime)
+'(use-package slime)
 
 '(use-package php-mode)
 
@@ -604,6 +606,20 @@
 	neil-inject-dep-to-project-p t))
 
 ;; https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
+
+
+(if (equal system-type 'windows-nt)
+    (progn
+      
+      (setq explicit-shell-file-name "c:/Users/Utilisateur/scoop/apps/pwsh/current/pwsh.exe")
+
+      (defun pwsh (&optional buffer)
+	"Launches a powershell in buffer *powershell* and switches to it."
+	(interactive)
+	(let ((buffer (or buffer "*powershell*"))
+	      (powershell-prog explicit-shell-file-name))
+	  (make-comint-in-buffer "shell" "*powershell*" powershell-prog)
+	  (switch-to-buffer buffer)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
