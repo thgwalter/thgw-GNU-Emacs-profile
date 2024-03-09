@@ -101,7 +101,6 @@
   
   (use-package anti-zenburn-theme)
   (use-package zenburn-theme)
-  (use-package app-monochrome-themes)
   
   (defun disable-all-themes ()
     "Disable all the themes already loaded."
@@ -233,9 +232,7 @@
     (dolist (m '(cider-mode))
       (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
     (setq lsp-enable-indentation nil)
-    (setq lsp-enable-completion-at-point nil)
-    (setq lsp-enable-file-watchers nil)
-    (setq lsp-enable-folding 1))
+    (setq lsp-enable-completion-at-point nil))
 
   (use-package lsp-ui
     :commands lsp-ui-mode))
@@ -316,8 +313,6 @@
 (progn
   (use-package projectile)
   (use-package magit))
-
-(use-package clomacs)
 
 ;; Global key bindings
 (progn
