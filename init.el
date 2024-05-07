@@ -8,6 +8,11 @@
 
 ;; Basic configuration
 (progn
+
+  (cd "c:/dev/PROJETS/")
+
+  (server-start)
+  
   (setq byte-compile-warnings '(cl-functions))
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -92,6 +97,11 @@
      "\\\\" "://"))
   (global-ligature-mode t))
 
+
+;;(visual-line-mode t)
+(global-visual-line-mode t)
+
+
 ;; Themes
 (progn
   
@@ -137,7 +147,10 @@
 ;; Initial screen
 (progn
   (setq inhibit-startup-screen t)
-  (setq initial-scratch-message ""))
+  (setq initial-scratch-message "")
+  (use-package dashboard
+    :config
+    (dashboard-setup-startup-hook)))
 
 (use-package treemacs
   :bind
@@ -318,6 +331,16 @@
   (use-package magit))
 
 (use-package clomacs)
+
+(use-package zig-mode)
+
+(use-package graphviz-dot-mode
+  :config
+  (setq graphviz-dot-indent-width 4)
+  (setq graphviz-dot-preview-extension "pdf")
+  (setq image-use-external-converter t)
+  :hook
+  ((graphviz-dot-mode . paredit-mode)))
 
 ;; Global key bindings
 (progn
