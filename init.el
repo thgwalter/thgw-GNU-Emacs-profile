@@ -9,8 +9,6 @@
 ;; Basic configuration
 (progn
 
-  (cd "c:/dev/PROJETS/")
-
   (server-start)
   
   (setq byte-compile-warnings '(cl-functions))
@@ -63,7 +61,7 @@
     'default nil
     :height 110
     :font (cond
-	   ((find-font (font-spec :name "Fira Code"))            "Fira Code Light")
+	   ((find-font (font-spec :name "FiraCode Nerd Font"))   "FiraCode Nerd Font Light")
 	   ((find-font (font-spec :name "JetBrains Mono"))       "JetBrains Mono Light")
 	   ((find-font (font-spec :name "Cascadia Code"))        "Cascadia Code")
 	   ((find-font (font-spec :name "CMU Typewriter Text"))  "CMU Typewriter Text Light")
